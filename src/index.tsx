@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <div>Hello, React!</div>
+    <div>Hello, React!!</div>
   </React.StrictMode>,
   document.getElementById("root")
 );

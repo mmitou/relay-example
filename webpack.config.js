@@ -32,5 +32,9 @@ module.exports = {
 			template: "./index.html"
 		}),
 		new ForkTsCheckerWebpackPlugin(),
-	]
+	],
+	devServer: {
+		hot: true,
+		port: 3000,
+	}
 };
