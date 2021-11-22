@@ -1,3 +1,9 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
-export const Hello = <div>Hello, World!</div>;
+ReactDOM.render(
+  <React.StrictMode>
+    <div>Hello, React!</div>
+  </React.StrictMode>,
+  document.getElementById("root")
+);
