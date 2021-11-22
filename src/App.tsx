@@ -1,3 +1,4 @@
+import { css } from '@emotion/react'
 import { FC } from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -6,6 +7,12 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
+
+const bgColor = css`
+  background-color: red;
+`
+
+const fgColor = css`color: green;`
 
 export const App: FC = () => {
   return (
@@ -24,6 +31,7 @@ export const App: FC = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
+          <h1 css={[bgColor, fgColor]}>hello</h1>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
