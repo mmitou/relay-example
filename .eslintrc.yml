@@ -19,6 +19,7 @@ plugins:
   - '@typescript-eslint'
 rules: {
   "no-use-before-define": "off",
+  "dot-notation": "off",
   "@typescript-eslint/no-use-before-define": ["error"],
   "react/react-in-jsx-scope": "off",
 }

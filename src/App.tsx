@@ -12,9 +12,12 @@ const bgColor = css`
   background-color: red;
 `
 
-const fgColor = css`color: green;`
+const fgColor = css`
+  color: green;
+`
 
 export const App: FC = () => {
+  const TOKEN = process.env['GITHUB_AUTH_TOKEN']
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -31,7 +34,7 @@ export const App: FC = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News
           </Typography>
-          <h1 css={[bgColor, fgColor]}>hello</h1>
+          <h1 css={[bgColor, fgColor]}>{TOKEN}</h1>
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>

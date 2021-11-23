@@ -1,4 +1,4 @@
 {
   "presets": ["@babel/preset-env", "@babel/preset-typescript", ["@babel/preset-react", {"runtime": "automatic", "importSource": "@emotion/react" }], "@emotion/babel-preset-css-prop" ],
-  "plugins": ["@emotion", "@babel/plugin-proposal-class-properties", "@babel/proposal-object-rest-spread"]
+  "plugins": ["@emotion", "relay", "@babel/plugin-proposal-class-properties", "@babel/proposal-object-rest-spread"]
 }
