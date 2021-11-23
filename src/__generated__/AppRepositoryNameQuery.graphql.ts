@@ -8,6 +8,7 @@ export type AppRepositoryNameQueryVariables = {};
 export type AppRepositoryNameQueryResponse = {
     readonly repository: {
         readonly name: string;
+        readonly createdAt: unknown;
     } | null;
 };
 export type AppRepositoryNameQuery = {
@@ -21,6 +22,7 @@ export type AppRepositoryNameQuery = {
 query AppRepositoryNameQuery {
   repository(owner: "facebook", name: "relay") {
     name
+    createdAt
     id
   }
 }
@@ -44,6 +46,12 @@ const node: ConcreteRequest = (function () {
         "kind": "ScalarField",
         "name": "name",
         "storageKey": null
+    } as any, v2 = {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "createdAt",
+        "storageKey": null
     } as any;
     return {
         "fragment": {
@@ -60,7 +68,8 @@ const node: ConcreteRequest = (function () {
                     "name": "repository",
                     "plural": false,
                     "selections": [
-                        (v1 /*: any*/)
+                        (v1 /*: any*/),
+                        (v2 /*: any*/)
                     ],
                     "storageKey": "repository(name:\"relay\",owner:\"facebook\")"
                 }
@@ -83,6 +92,7 @@ const node: ConcreteRequest = (function () {
                     "plural": false,
                     "selections": [
                         (v1 /*: any*/),
+                        (v2 /*: any*/),
                         {
                             "alias": null,
                             "args": null,
@@ -96,14 +106,14 @@ const node: ConcreteRequest = (function () {
             ]
         },
         "params": {
-            "cacheID": "91a2d37a28396eb1d7dcf20cc01b3d0d",
+            "cacheID": "7ec665d76e22d50425bfe44e8b5662d6",
             "id": null,
             "metadata": {},
             "name": "AppRepositoryNameQuery",
             "operationKind": "query",
-            "text": "query AppRepositoryNameQuery {\n  repository(owner: \"facebook\", name: \"relay\") {\n    name\n    id\n  }\n}\n"
+            "text": "query AppRepositoryNameQuery {\n  repository(owner: \"facebook\", name: \"relay\") {\n    name\n    createdAt\n    id\n  }\n}\n"
         }
     } as any;
 })();
-(node as any).hash = '9f041295559a43de4cee97435d379fd0';
+(node as any).hash = '146c4515d274e71d747694fd80197f45';
 export default node;
