@@ -1,10 +1,9 @@
-export async function fetchGraphQL<T>(
-  text: string,
-  variables: object
-): Promise<T> {
-  const GITHUB_AUTH_TOKEN = process.env['GITHUB_AUTH_TOKEN']
+import { GraphQLResponse } from 'relay-runtime';
+
+async function fetchGraphQL(text: string, variables: object) {
+  const { GITHUB_AUTH_TOKEN } = process.env;
   if (GITHUB_AUTH_TOKEN == null) {
-    throw new Error('GITHUB_AUTH_TOKEN not defined')
+    throw new Error('GITHUB_AUTH_TOKEN not defined');
   }
 
   const response = await fetch('https://api.github.com/graphql', {
@@ -17,8 +16,9 @@ export async function fetchGraphQL<T>(
       query: text,
       variables,
     }),
-  })
+  });
 
-  const result = (await response.json()) as T
-  return result
+  return (await response.json()) as GraphQLResponse;
 }
+
+export default fetchGraphQL;

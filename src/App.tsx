@@ -1,51 +1,28 @@
-import { FC, useEffect, useState } from 'react'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
-import { fetchGraphQL } from './fetchGraphQL'
+import { FC} from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import { graphql } from 'relay-runtime';
+import { loadQuery, usePreloadedQuery } from 'react-relay';
+import RelayEnvironment from './RelayEnvironment';
 
-interface Repository {
-  data: {
-    repository: {
-      name: string
+const RepositoryNameQuery = graphql`
+  query AppRepositoryNameQuery {
+    repository(owner: "facebook", name: "relay") {
+      name
     }
   }
-}
+`;
 
-export const App: FC = () => {
-  const [name, setName] = useState('')
+const preloadedQuery = loadQuery(RelayEnvironment, RepositoryNameQuery, {});
 
-  useEffect(() => {
-    let isMounted = true
-    fetchGraphQL<Repository>(
-      `
-      query RepositoryNameQuery {
-        # feel free to change owner/name here
-        repository(owner: "facebook" name: "relay") {
-          name
-        }
-      }
-			`,
-      {}
-    )
-      .then((response) => {
-        if (!isMounted) {
-          return
-        }
-        const data = response.data
-        setName(data.repository.name)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-    return () => {
-      isMounted = false
-    }
-  }, [])
+const App: FC = () => {
+  const data = usePreloadedQuery(RepositoryNameQuery, preloadedQuery);
+  const msg = JSON.stringify(data);
 
   return (
     <div>
@@ -68,9 +45,9 @@ export const App: FC = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <div>
-        <p>{name != null ? `Repository: ${name}` : 'Loading'}</p>
-      </div>
+      <div>response: {msg}</div>
     </div>
-  )
-}
+  );
+};
+
+export default App;

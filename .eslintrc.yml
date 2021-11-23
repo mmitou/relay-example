@@ -2,8 +2,8 @@ env:
   browser: true
   es2021: true
 extends:
-  - 'plugin:react/recommended'
-  - standard
+  - airbnb
+  - airbnb/hooks
   - prettier
   - plugin:@typescript-eslint/recommended
   - plugin:@typescript-eslint/recommended-requiring-type-checking
@@ -17,12 +17,23 @@ parserOptions:
 plugins:
   - react
   - '@typescript-eslint'
-rules: {
-  "no-use-before-define": "off",
-  "dot-notation": "off",
-  "@typescript-eslint/no-use-before-define": ["error"],
-  "react/react-in-jsx-scope": "off",
-}
+rules:
+  "no-use-before-define": "off"
+  "dot-notation": "off"
+  "@typescript-eslint/no-use-before-define": ["error"]
+  "react/react-in-jsx-scope": "off"
+  "react-hooks/rules-of-hooks": "error"
+  "import/extensions": "off"
+  "import/no-unresolved": "off"
+  "react/function-component-definition":
+    - 2
+    - namedComponents: arrow-function
+      unnamedComponents: arrow-function
+  "react/jsx-filename-extension":
+    - 2
+    - extensions:
+      - ".ts"
+      - ".tsx"
 settings:
   react:
     version: detect

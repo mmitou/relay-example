@@ -1,10 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { App } from './App'
+import React, {Suspense} from 'react';
+import ReactDOM from 'react-dom';
+import { RelayEnvironmentProvider } from 'react-relay';
+import App from './App';
+import RelayEnvironment from './RelayEnvironment';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RelayEnvironmentProvider environment={RelayEnvironment}>
+      <Suspense fallback={<p>loading</p>}>
+        <App />
+      </Suspense>
+    </RelayEnvironmentProvider>
   </React.StrictMode>,
   document.getElementById('root')
-)
+);
