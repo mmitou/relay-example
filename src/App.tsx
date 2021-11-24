@@ -6,16 +6,20 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { graphql } from 'relay-runtime';
-import { loadQuery, PreloadedQuery, usePreloadedQuery } from 'react-relay';
+import {
+  loadQuery,
+  PreloadedQuery,
+  usePreloadedQuery,
+  graphql,
+} from 'react-relay';
+import RepositoryName from './RepositoryName';
 import RelayEnvironment from './RelayEnvironment';
 import { AppRepositoryNameQuery } from './__generated__/AppRepositoryNameQuery.graphql';
 
 const RepositoryNameQuery = graphql`
   query AppRepositoryNameQuery {
     repository(owner: "facebook", name: "relay") {
-      name
-      createdAt
+      ...RepositoryNameRepositoryFragment_repository
     }
   }
 `;
@@ -28,7 +32,6 @@ const preloadedQuery: PreloadedQuery<AppRepositoryNameQuery> = loadQuery(
 
 const App: FC = () => {
   const data = usePreloadedQuery(RepositoryNameQuery, preloadedQuery);
-
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -50,7 +53,7 @@ const App: FC = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      <div>response: {data.repository?.name}</div>
+      {data.repository && <RepositoryName repository={data.repository} />}
     </div>
   );
 };

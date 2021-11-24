@@ -4,11 +4,11 @@
 
 import { ConcreteRequest } from "relay-runtime";
 
+import { FragmentRefs } from "relay-runtime";
 export type AppRepositoryNameQueryVariables = {};
 export type AppRepositoryNameQueryResponse = {
     readonly repository: {
-        readonly name: string;
-        readonly createdAt: unknown;
+        readonly " $fragmentRefs": FragmentRefs<"RepositoryNameRepositoryFragment_repository">;
     } | null;
 };
 export type AppRepositoryNameQuery = {
@@ -21,10 +21,14 @@ export type AppRepositoryNameQuery = {
 /*
 query AppRepositoryNameQuery {
   repository(owner: "facebook", name: "relay") {
-    name
-    createdAt
+    ...RepositoryNameRepositoryFragment_repository
     id
   }
+}
+
+fragment RepositoryNameRepositoryFragment_repository on Repository {
+  name
+  createdAt
 }
 */
 
@@ -40,19 +44,7 @@ const node: ConcreteRequest = (function () {
             "name": "owner",
             "value": "facebook"
         } as any
-    ], v1 = {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "name",
-        "storageKey": null
-    } as any, v2 = {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "createdAt",
-        "storageKey": null
-    } as any;
+    ];
     return {
         "fragment": {
             "argumentDefinitions": [],
@@ -68,8 +60,11 @@ const node: ConcreteRequest = (function () {
                     "name": "repository",
                     "plural": false,
                     "selections": [
-                        (v1 /*: any*/),
-                        (v2 /*: any*/)
+                        {
+                            "args": null,
+                            "kind": "FragmentSpread",
+                            "name": "RepositoryNameRepositoryFragment_repository"
+                        }
                     ],
                     "storageKey": "repository(name:\"relay\",owner:\"facebook\")"
                 }
@@ -91,8 +86,20 @@ const node: ConcreteRequest = (function () {
                     "name": "repository",
                     "plural": false,
                     "selections": [
-                        (v1 /*: any*/),
-                        (v2 /*: any*/),
+                        {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "name",
+                            "storageKey": null
+                        },
+                        {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "createdAt",
+                            "storageKey": null
+                        },
                         {
                             "alias": null,
                             "args": null,
@@ -106,14 +113,14 @@ const node: ConcreteRequest = (function () {
             ]
         },
         "params": {
-            "cacheID": "7ec665d76e22d50425bfe44e8b5662d6",
+            "cacheID": "df1c5bb61f43c8258aeaf682b873583a",
             "id": null,
             "metadata": {},
             "name": "AppRepositoryNameQuery",
             "operationKind": "query",
-            "text": "query AppRepositoryNameQuery {\n  repository(owner: \"facebook\", name: \"relay\") {\n    name\n    createdAt\n    id\n  }\n}\n"
+            "text": "query AppRepositoryNameQuery {\n  repository(owner: \"facebook\", name: \"relay\") {\n    ...RepositoryNameRepositoryFragment_repository\n    id\n  }\n}\n\nfragment RepositoryNameRepositoryFragment_repository on Repository {\n  name\n  createdAt\n}\n"
         }
     } as any;
 })();
-(node as any).hash = '146c4515d274e71d747694fd80197f45';
+(node as any).hash = '992266e428014546f9396f1d8a61168a';
 export default node;
