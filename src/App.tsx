@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, Suspense } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,6 +15,7 @@ import {
 import RepositoryName from './RepositoryName';
 import RelayEnvironment from './RelayEnvironment';
 import { AppRepositoryNameQuery } from './__generated__/AppRepositoryNameQuery.graphql';
+import UserInfo from './UserInfo';
 
 const RepositoryNameQuery = graphql`
   query AppRepositoryNameQuery {
@@ -32,6 +33,7 @@ const preloadedQuery: PreloadedQuery<AppRepositoryNameQuery> = loadQuery(
 
 const App: FC = () => {
   const data = usePreloadedQuery(RepositoryNameQuery, preloadedQuery);
+
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -53,7 +55,14 @@ const App: FC = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      {data.repository && <RepositoryName repository={data.repository} />}
+      <div>
+        {data.repository && <RepositoryName repository={data.repository} />}
+      </div>
+      <div>
+        <Suspense fallback={<p>loading userinfo...</p>}>
+          <UserInfo />
+        </Suspense>
+      </div>
     </div>
   );
 };

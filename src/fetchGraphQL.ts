@@ -6,6 +6,9 @@ async function fetchGraphQL(text: string, variables: object) {
     throw new Error('GITHUB_AUTH_TOKEN not defined');
   }
 
+  // eslint-disable-next-line no-console
+  console.log('fetchGraphQL: ', text);
+
   const response = await fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
