@@ -1,10 +1,15 @@
 import { TextField } from '@mui/material';
 import { ChangeEvent, FC, Suspense, useState } from 'react';
-import { graphql, useLazyLoadQuery } from 'react-relay';
+import {
+  graphql,
+  PreloadedQuery,
+  useLazyLoadQuery,
+  usePreloadedQuery,
+  useQueryLoader,
+} from 'react-relay';
 import {
   UserInfoQuery,
   UserInfoQueryResponse,
-  UserInfoQueryVariables,
 } from './__generated__/UserInfoQuery.graphql';
 
 const query = graphql`
@@ -18,23 +23,9 @@ const query = graphql`
   }
 `;
 
-const useUserInfo = (
-  variables: UserInfoQueryVariables
-): UserInfoQueryResponse['user'] => {
-  const data = useLazyLoadQuery<UserInfoQuery>(query, variables);
-
-  return data.user;
-};
-
-interface UserInfoViewerProps {
-  login: string;
-}
-
-const UserInfoViewer: FC<UserInfoViewerProps> = ({
-  login,
-}: UserInfoViewerProps) => {
-  const user = useUserInfo({ login });
-
+const UserInfoViewer: FC<UserInfoQueryResponse> = ({
+  user,
+}: UserInfoQueryResponse) => {
   if (user) {
     const { name } = user;
     return (
@@ -51,10 +42,32 @@ const UserInfoViewer: FC<UserInfoViewerProps> = ({
   );
 };
 
+interface PropsLazy {
+  login: string;
+}
+const UserInfoViewerLazy: FC<PropsLazy> = ({ login }: PropsLazy) => {
+  const res = useLazyLoadQuery<UserInfoQuery>(query, { login });
+
+  return <UserInfoViewer user={res.user} />;
+};
+
+interface PropsPreloaded {
+  queryRef: PreloadedQuery<UserInfoQuery, Record<string, unknown>>;
+}
+
+const UserInfoViewerPreloaded: FC<PropsPreloaded> = ({
+  queryRef,
+}: PropsPreloaded) => {
+  const res = usePreloadedQuery(query, queryRef);
+  return <UserInfoViewer user={res.user} />;
+};
+
 const UserInfo: FC = () => {
   const [login, setLogin] = useState('');
+  const [queryRef, loadQuery] = useQueryLoader<UserInfoQuery>(query);
   const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
     setLogin(ev.target.value);
+    loadQuery({ login: ev.target.value });
   };
 
   return (
@@ -62,9 +75,20 @@ const UserInfo: FC = () => {
       <div>
         <TextField value={login} onChange={handleChange} />
       </div>
-      <Suspense fallback={<p>loading {login}...</p>}>
-        <UserInfoViewer login={login} />
-      </Suspense>
+
+      <div>
+        <p>lazy</p>
+        <Suspense fallback={<p>lazy loading {login}...</p>}>
+          <UserInfoViewerLazy login={login} />
+        </Suspense>
+      </div>
+
+      <div>
+        <p>preloaded</p>
+        <Suspense fallback={<p>preloaded loading {login}...</p>}>
+          {queryRef && <UserInfoViewerPreloaded queryRef={queryRef} />}
+        </Suspense>
+      </div>
     </div>
   );
 };
