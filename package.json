@@ -1,5 +1,5 @@
 {
-  "name": "babel-example",
+  "name": "relay-example",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -14,7 +14,7 @@
     "relay": "relay-compiler --src ./src --schema ./schema.graphql --language typescript --artifactDirectory ./src/__generated__",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Masayuki ito",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.16.0",
