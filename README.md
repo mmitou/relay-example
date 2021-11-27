@@ -1,6 +1,15 @@
 # relay example
 
 この relay example では github graphql API を使って、github のログイン名からログイン名に付随する情報を取得します。
+create-react-app は使っていません。
+
+この example は主に以下のパッケージから構成されています。
+
+- typescript
+- react
+- relay
+
+## 実行方法
 
 この example を実行する手順は以下の通りです。
 
